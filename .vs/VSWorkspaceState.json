@@ -5,6 +5,6 @@
     "\\securitylibrary\\MainAlgorithms",
     "\\securitypackagetest"
   ],
-  "SelectedNode": "\\securitylibrary\\SecurityLibrary.csproj",
+  "SelectedNode": "\\securitylibrary\\MainAlgorithms\\HillCipher.cs",
   "PreviewInSolutionExplorer": false
 }

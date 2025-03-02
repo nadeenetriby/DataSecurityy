@@ -30,3 +30,10 @@ C:\college\data_security\milestone1\SecurityPackage\SecurityPackageTest\obj\Debu
 C:\college\data_security\milestone1\SecurityPackage\SecurityPackageTest\obj\Debug\SecurityPackageTest.pdb
 C:\college\data_security\milestone1\datasec\SecurityPackageTest\obj\Debug\SecurityPackageTest.csproj.AssemblyReference.cache
 C:\college\data_security\milestone1\datasec\SecurityPackageTest\obj\Debug\SecurityPackageTest.csproj.CoreCompileInputs.cache
+C:\college\data_security\milestone1\datasec\securitypackagetest\bin\Debug\SecurityPackageTest.dll
+C:\college\data_security\milestone1\datasec\securitypackagetest\bin\Debug\SecurityPackageTest.pdb
+C:\college\data_security\milestone1\datasec\securitypackagetest\bin\Debug\SecurityLibrary.dll
+C:\college\data_security\milestone1\datasec\securitypackagetest\bin\Debug\SecurityLibrary.pdb
+C:\college\data_security\milestone1\datasec\securitypackagetest\obj\Debug\SecurityPackageTest.csproj.CopyComplete
+C:\college\data_security\milestone1\datasec\securitypackagetest\obj\Debug\SecurityPackageTest.dll
+C:\college\data_security\milestone1\datasec\securitypackagetest\obj\Debug\SecurityPackageTest.pdb
