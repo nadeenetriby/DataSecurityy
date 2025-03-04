@@ -56,7 +56,45 @@ namespace SecurityLibrary
         /// <returns>Plain text</returns>
         public string AnalyseUsingCharFrequency(string cipher)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            string frequentLetterOrder = "ETAOINSRHLDCUMFPGWYBVKXJQZ"; 
+
+            Dictionary<char, int> cipherFrequency = new Dictionary<char, int>();
+
+           // Count each letter in cipher text frequency and store them in a dictionary
+            foreach (char c in cipher)
+             {
+                if (char.IsLetter(c))
+                {
+                  if (cipherFrequency.ContainsKey(c))
+                    cipherFrequency[c]++;
+                  else
+                cipherFrequency[c] = 1;
+             }
+           }
+
+         // Sort letters by frequency in descending order
+          var sortedCipherLetters = cipherFrequency.OrderByDescending(x => x.Value).Select(x => x.Key).ToList();
+          
+         Dictionary<char, char> substitutionMap = new Dictionary<char, char>();
+
+        // Map each letter in sortedCipherLetters to the frequentLetterOrder
+        for (int i = 0; i < sortedCipherLetters.Count; i++)
+         {
+             substitutionMap[sortedCipherLetters[i]] = frequentLetterOrder[i];
+         }
+
+        StringBuilder decryptedText = new StringBuilder();
+
+        foreach (char c in cipher)
+        {
+           if (substitutionMap.ContainsKey(c))
+             decryptedText.Append(substitutionMap[c]);
+           else
+             decryptedText.Append(c);
+        }
+
+         return decryptedText.ToString().ToLower();
         }
     }
 }
