@@ -1,0 +1,78 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SecurityLibrary
+{
+    public class Ceaser : ICryptographicTechnique<string, int>
+    {
+        public string Encrypt(string plainText, int key)
+        {
+            int size = plainText.Length;
+            char[] arr = new char[size];
+
+            for (int i = 0; i < size; i++)
+            {
+                char x = plainText[i];
+
+                bool y = char.IsLetter(x);
+
+                if (y)
+                {
+                    if (char.IsUpper(x))
+                        arr[i] = (char)('A' + (x - 'A' + key) % 26);
+                    else
+                        arr[i] = (char)('a' + (x - 'a' + key) % 26);
+                }
+                else
+                {
+                    arr[i] = x;
+                }
+            }
+
+            return new string(arr); //from arr to string (output)
+        }
+
+
+
+        public string Decrypt(string cipherText, int key)
+        {
+            int size = cipherText.Length;
+            char[] arr = new char[size];
+            for (int i = 0; i < size; i++)
+            {
+                char x = cipherText[i];
+                bool y = char.IsLetter(x);
+
+                if (y)
+                {
+                    if (char.IsUpper(x))
+                        arr[i] = (char)('A' + (x - 'A' - key + 26) % 26);
+                    else
+                        arr[i] = (char)('a' + (x - 'a' - key) % 26);
+                }
+
+                else
+                {
+                    arr[i] = x;
+                }
+            }
+            return new string(arr);
+        }
+
+
+
+        public int Analyse(string plainText, string cipherText)
+        {
+            if (string.IsNullOrEmpty(plainText) || string.IsNullOrEmpty(cipherText) || plainText.Length != cipherText.Length)
+                return -1;
+            int key = (cipherText[0] - plainText[0] + 26) % 26;
+
+            return key;
+        }
+    }
+
+
+}
