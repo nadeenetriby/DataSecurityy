@@ -10,7 +10,60 @@ namespace SecurityLibrary
     {
         public string Analyse(string plainText, string cipherText)
         {
-            throw new NotImplementedException();
+                    //throw new NotImplementedException();
+
+        Dictionary<char, char> permutations = new Dictionary<char, char>();
+
+        plainText = plainText.ToUpper();
+        cipherText = cipherText.ToUpper();
+
+        // Step 1: Map plaintext characters to ciphertext characters
+        for (int i = 0; i < plainText.Length; i++)
+        {
+            char plainChar = plainText[i];
+            char cipherChar = cipherText[i];
+
+            // Map only if not already mapped
+            if (!permutations.ContainsKey(plainChar))
+            {
+                permutations[plainChar] = cipherChar;
+            }
+        }
+
+        // Step 2: Create a list of the full alphabet
+        List<char> alphabet = new List<char>
+{
+    'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+    'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+};
+
+        char[] key = new char[26];
+        List<char> usedLetters = new List<char>();
+
+        foreach (var pair in permutations)
+        {
+            usedLetters.Add(pair.Value);
+
+            if (pair.Key >= 'A' && pair.Key <= 'Z')
+            {
+                //I convert the pair.key to an index and assign it to it's corresponding value
+                key[pair.Key - 'A'] = pair.Value;
+            }
+        }
+
+        List<char> availableLetters = alphabet.Except(usedLetters).ToList();
+
+        int index = 0;
+        for (int i = 0; i < 26; i++)
+        {
+            //if a letter doesn't have a letter permutation assign it to any available one
+            if (key[i] == '\0')  
+            {
+                key[i] = availableLetters[index++];
+            }
+        }
+
+        return new string(key).ToLower();
         }
 
         public string Decrypt(string cipherText, string key)
