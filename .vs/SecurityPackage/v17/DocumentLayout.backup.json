@@ -1,0 +1,77 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\aseel\\Desktop\\uni\\third year\\2\\Data Security\\DataSecurityy\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{4638FC66-5518-485D-A541-D0A6044730B0}|SecurityPackageTest\\SecurityPackageTest.csproj|c:\\users\\aseel\\desktop\\uni\\third year\\2\\data security\\datasecurityy\\securitypackagetest\\vigneretest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4638FC66-5518-485D-A541-D0A6044730B0}|SecurityPackageTest\\SecurityPackageTest.csproj|solutionrelative:securitypackagetest\\vigneretest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{64AFBAE4-208F-4F5D-B9F4-CCA2E71F36E4}|SecurityLibrary\\SecurityLibrary.csproj|C:\\Users\\aseel\\Desktop\\uni\\third year\\2\\Data Security\\DataSecurityy\\securitylibrary\\mainalgorithms\\repeatingkeyvigenere.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{64AFBAE4-208F-4F5D-B9F4-CCA2E71F36E4}|SecurityLibrary\\SecurityLibrary.csproj|solutionrelative:securitylibrary\\mainalgorithms\\repeatingkeyvigenere.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{64AFBAE4-208F-4F5D-B9F4-CCA2E71F36E4}|SecurityLibrary\\SecurityLibrary.csproj|C:\\Users\\aseel\\Desktop\\uni\\third year\\2\\Data Security\\DataSecurityy\\securitylibrary\\mainalgorithms\\autokeyvigenere.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{64AFBAE4-208F-4F5D-B9F4-CCA2E71F36E4}|SecurityLibrary\\SecurityLibrary.csproj|solutionrelative:securitylibrary\\mainalgorithms\\autokeyvigenere.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "VignereTest.cs",
+              "DocumentMoniker": "C:\\Users\\aseel\\Desktop\\uni\\third year\\2\\Data Security\\DataSecurityy\\securitypackagetest\\VignereTest.cs",
+              "RelativeDocumentMoniker": "securitypackagetest\\VignereTest.cs",
+              "ToolTip": "C:\\Users\\aseel\\Desktop\\uni\\third year\\2\\Data Security\\DataSecurityy\\securitypackagetest\\VignereTest.cs",
+              "RelativeToolTip": "securitypackagetest\\VignereTest.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAgwBIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-06T20:53:44.484Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AutokeyVigenere.cs",
+              "DocumentMoniker": "C:\\Users\\aseel\\Desktop\\uni\\third year\\2\\Data Security\\DataSecurityy\\securitylibrary\\MainAlgorithms\\AutokeyVigenere.cs",
+              "RelativeDocumentMoniker": "securitylibrary\\MainAlgorithms\\AutokeyVigenere.cs",
+              "ToolTip": "C:\\Users\\aseel\\Desktop\\uni\\third year\\2\\Data Security\\DataSecurityy\\securitylibrary\\MainAlgorithms\\AutokeyVigenere.cs",
+              "RelativeToolTip": "securitylibrary\\MainAlgorithms\\AutokeyVigenere.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-06T20:51:24.43Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "RepeatingKeyVigenere.cs",
+              "DocumentMoniker": "C:\\Users\\aseel\\Desktop\\uni\\third year\\2\\Data Security\\DataSecurityy\\securitylibrary\\MainAlgorithms\\RepeatingKeyVigenere.cs",
+              "RelativeDocumentMoniker": "securitylibrary\\MainAlgorithms\\RepeatingKeyVigenere.cs",
+              "ToolTip": "C:\\Users\\aseel\\Desktop\\uni\\third year\\2\\Data Security\\DataSecurityy\\securitylibrary\\MainAlgorithms\\RepeatingKeyVigenere.cs",
+              "RelativeToolTip": "securitylibrary\\MainAlgorithms\\RepeatingKeyVigenere.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-06T20:51:22.878Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
