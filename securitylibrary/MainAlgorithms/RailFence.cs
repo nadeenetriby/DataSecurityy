@@ -34,7 +34,7 @@ namespace SecurityLibrary
             int rows = key;
 
 
-            int cols = (int)Math.Ceiling((double)cipherText.Length / key);
+            int cols = (cipherText.Length + key - 1) / key;
 
             char[,] rail = new char[rows, cols];
 
@@ -93,7 +93,7 @@ namespace SecurityLibrary
             // First, remove spaces
             plainText = plainText.Replace(" ", "");
 
-            int cols = (int)Math.Ceiling((double)plainText.Length / key);
+            int cols = (plainText.Length + key - 1) / key;
 
             char[,] rail = new char[rows, cols];
 
