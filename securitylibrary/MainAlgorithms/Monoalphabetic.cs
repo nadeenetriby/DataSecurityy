@@ -17,7 +17,6 @@ namespace SecurityLibrary
         plainText = plainText.ToUpper();
         cipherText = cipherText.ToUpper();
 
-        // Step 1: Map plaintext characters to ciphertext characters
         for (int i = 0; i < plainText.Length; i++)
         {
             char plainChar = plainText[i];
