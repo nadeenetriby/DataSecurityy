@@ -1,24 +1,160 @@
-﻿using System;
+using System;
+using System.Numerics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Numerics;
 
 namespace SecurityLibrary
 {
     /// <summary>
     /// The List<int> is row based. Which means that the key is given in row based manner.
     /// </summary>
-    public class HillCipher :  ICryptographicTechnique<List<int>, List<int>>
+    public class HillCipher : ICryptographicTechnique<List<int>, List<int>>
     {
 
         public List<int> Analyse(List<int> plainText, List<int> cipherText)
         {
-            
+
+
+            //throw new NotImplementedException();
+            // this funcion its purpose is to get the key 2*2 matrix that can convert this plaintext into this cipher text
+
+            /*
+             بسم الله توكلنا على الله ولا حول ولا قوة الا بالله
+            استغفر الله و الحمدلله و سبحان الله  و الله اكبر
+             
+             */
+            //first thing we will need to handle that if the list its size is mmore than 4 items
+            // so in this case we will have 2 approaches the first one the sliding window technique but this will not give a correct output in special testcases
+            // so we will use the another approach with taking all the combinations poosible in trying to find a matrix is invertable
+            //so first we will need to divide each list into pairs
+            // we will define list of pairs for each list .... the pair here is the same as tuple
+            List<Tuple<int, int>> plainpairs = new List<Tuple<int, int>>();
+            // because the pairs each one will have 2 items so we will need to check first that the size is even to get correct output
+            if(plainText.Count %2!=0)
+                throw new ArgumentException("The list must contain an even number of elements.");
+            //other wise now we will convert the plaintext list into the pairs
+            for (int i = 0; i < plainText.Count; i += 2)
+            {
+                plainpairs.Add(new Tuple<int, int>(plainText[i], plainText[i + 1]));
+            }
+            // and we will make the same thing for the cipher text we will divide it into pairs
+            List<Tuple<int, int>> cipherpairs = new List<Tuple<int, int>>();
+            // because the pairs each one will have 2 items so we will need to check first that the size is even to get correct output
+            if (cipherText.Count % 2 != 0)
+                throw new ArgumentException("The list must contain an even number of elements.");
+            //other wise now we will convert the plaintext list into the pairs
+            for (int i = 0; i < cipherText.Count; i += 2)
+            {
+                cipherpairs.Add(new Tuple<int, int>(cipherText[i], cipherText[i + 1]));
+            }
+
+            // now we will start taking each pair with all other next pairs to it
+            int sizeee = cipherpairs.Count;
+            for(int hola=0;hola<sizeee-1;hola++)
+            {
+                for(int bela=hola+1;bela<sizeee;bela++ )
+                {
+                    // in each iteration we will take the outer pair with the current inner pair
+                    //define the 2 matrcies of the plain and for the cipher 
+                    int[,] plainmatrix = new int[2, 2];
+                    // now we will need to iterate over the list to fill this matrix with its values
+                    plainmatrix[0, 0] = plainpairs[hola].Item1;        //first item in first pair 
+                    plainmatrix[0,1] = plainpairs[bela].Item1;      //first item in second pair
+                    plainmatrix[1,0] = plainpairs[hola].Item2;     //second item in first pair
+                    plainmatrix[1,1] = plainpairs[bela].Item2;    //second item in second pair
+                    // make the same with the ciphertext
+                    int[,] ciphermatrix = new int[2, 2];
+                    ciphermatrix[0, 0] = cipherpairs[hola].Item1;        //first item in first pair 
+                    ciphermatrix[0, 1] = cipherpairs[bela].Item1;      //first item in second pair
+                    ciphermatrix[1, 0] = cipherpairs[hola].Item2;     //second item in first pair
+                    ciphermatrix[1, 1] = cipherpairs[bela].Item2;    //second item in second pair
+                                                                     // now calculating the determinant of the plainmatrix
+                    int det = plainmatrix[0, 0] * plainmatrix[1, 1] - plainmatrix[0, 1] * plainmatrix[1, 0];
+                    int finaldet = det % 26;
+                    if (finaldet < 0)
+                        finaldet += 26;
+
+                    // Check if the plaintext matrix is invertible: finalDet must be nonzero and gcd(finalDet, 26) must equal 1.
+                    int gcd = (int)BigInteger.GreatestCommonDivisor(finaldet, 26);
+                    if (finaldet == 0 || gcd != 1)
+                        continue; // try the another next 2 pairs
+                    //otherwise it means this plainmatrix is invertable so i will now get its invertable
+                    int temp = plainmatrix[1, 1];
+                    plainmatrix[1, 1] = plainmatrix[0, 0];
+                    plainmatrix[0, 0] = temp;
+                    //second thing is to multiply -1 in this 2 indcies [0,1] and [1,0]
+                    plainmatrix[0, 1] = plainmatrix[0, 1] * -1;
+                    plainmatrix[1, 0] = plainmatrix[1, 0] * -1;
+                    // this way to divide the 1 over finaldet is wrong because it always will give 0 cause of integer division so we can not use it 
+                    /// finaldet = (1 / finaldet);
+                    // to get the 1 over detmerninant we will use another way
+                    int finalfinaldet = 0;
+                    for (int x = 1; x < 26; x++)
+                    {
+                        if ((finaldet * x) % 26 == 1)
+                        {
+                            finalfinaldet = x;
+                            break;
+                        }
+                    }
+                    // now the last step is to iterate over this matrix and multiply each index with 1/det (finalfinaldet) and take the mod 26
+                    for (int i = 0; i < 2; i++)
+                    {
+                        for (int h = 0; h < 2; h++)
+                        {
+                            plainmatrix[i, h] = finalfinaldet * plainmatrix[i, h];
+                            plainmatrix[i, h] = plainmatrix[i, h] % 26;
+                            if (plainmatrix[i, h] < 0)
+                                plainmatrix[i, h] += 26;
+                        }
+                    }
+                    // now we get the inverse matrix of the plaintext so
+                    //now the final final step is to multiply the cipher matrix and the invertable plaintext matrix
+                    int[,] keyMatrix = new int[2, 2];
+
+                    for (int i = 0; i < 2; i++)
+                    {
+                        for (int j = 0; j < 2; j++)
+                        {
+                            int sum = 0;
+                            for (int k = 0; k < 2; k++)
+                            {
+                                sum += ciphermatrix[i, k] * plainmatrix[k, j];
+                            }
+                            keyMatrix[i, j] = sum % 26;
+                        }
+                    }
+                    // now converting this key matrix into list of integers
+
+                    List<int> resultkey = new List<int>();
+
+                    for (int i = 0; i < 2; i++)
+                    {
+                        for (int h = 0; h < 2; h++)
+                        {
+                            int item = keyMatrix[i, h];
+                            resultkey.Add(item);
+                        }
+
+                    }
+                    return resultkey;
+
+
+
+
+
+                }
+            }
            
-            throw new NotImplementedException();
+          
+           //otherwise if we finish all the combinations of pairs we can get and we do not find an invertable plaintext matrix so we will throw this exception
+                throw new InvalidAnlysisException();
+          
         }
+
+
 
 
         public List<int> Decrypt(List<int> cipherText, List<int> key)
@@ -26,12 +162,12 @@ namespace SecurityLibrary
             List<List<int>> keyMatrix = new List<List<int>>();
             int m = (int)Math.Sqrt(key.Count);
             //getting matrix shape from key
-            for(int i = 0; i < m; i++)
+            for (int i = 0; i < m; i++)
             {
                 keyMatrix.Add(new List<int>());
-                for(int j = 0; j < m; j++)
+                for (int j = 0; j < m; j++)
                 {
-                    keyMatrix[i].Add(key[j+(i*m)]);
+                    keyMatrix[i].Add(key[j + (i * m)]);
                 }
             }
             //step 1-get deteriminant
@@ -41,16 +177,16 @@ namespace SecurityLibrary
 
             //step 2 Calculate b = det(k)^-1 ==> ( b x det(k) mod 26 =1 )
             int b = -1;
-           for(int i = 1; i < 26; i++)
-           {
+            for (int i = 1; i < 26; i++)
+            {
                 if ((moddet * i) % 26 == 1)
                 {
                     b = i;
                     break;
                 }
 
-           }
-            if (moddet == 0 || b == -1|| (int)BigInteger.GreatestCommonDivisor(26, moddet) != 1)
+            }
+            if (moddet == 0 || b == -1 || (int)BigInteger.GreatestCommonDivisor(26, moddet) != 1)
             {
 
                 throw new InvalidOperationException("invalidd");
@@ -59,22 +195,22 @@ namespace SecurityLibrary
             // step 3 Apply rule kij ={b x (-1)i+j * Dij mod 26} mod 26
             List<List<int>> for_trans = new List<List<int>>();
             int sign = 1;
-            for (int i=0; i < m; i++)
+            for (int i = 0; i < m; i++)
             {
                 for_trans.Add(new List<int>());
-                for (int j = 0; j <m; j++)
+                for (int j = 0; j < m; j++)
                 {
-                    List<List<int>> submatrix = Get_submatrix(m, keyMatrix,i,j);
+                    List<List<int>> submatrix = Get_submatrix(m, keyMatrix, i, j);
                     if ((i + j) % 2 == 0) sign = 1;
                     else sign = -1;
-                    int x = (sign *  Determinant(submatrix,m-1) )% 26;
+                    int x = (sign * Determinant(submatrix, m - 1)) % 26;
                     if (x < 0) x += 26;
                     int val = (b * x) % 26;
                     for_trans[i].Add(val);
-                    
+
                 }
             }
-             List<List<int>> Transpose = new List<List<int>>();
+            List<List<int>> Transpose = new List<List<int>>();
             //step 4 TRANSPOSE
             for (int i = 0; i < m; i++)
             {
@@ -95,9 +231,9 @@ namespace SecurityLibrary
                     int sum = 0;
                     for (int l = 0; l < m; l++)
                     {
-                        if (i + l < cipherText.Count )
+                        if (i + l < cipherText.Count)
                         {
-                            
+
                             sum += cipher[i + l] * Transpose[l][j];
 
                         }
@@ -110,26 +246,27 @@ namespace SecurityLibrary
 
             return final_plainText;
         }
-        public int Determinant(List<List<int>> keyMatrix,int m)
+
+        public int Determinant(List<List<int>> keyMatrix, int m)
         {
-            if (m == 1) return keyMatrix[0][0] ;
+            if (m == 1) return keyMatrix[0][0];
             if (m == 2) return keyMatrix[0][0] * keyMatrix[1][1] - keyMatrix[0][1] * keyMatrix[1][0];
 
             int sign = 1;
             int det = 0;
-            for(int i = 0; i < m; i++)
+            for (int i = 0; i < m; i++)
             {
-               
-                List<List<int>> submatrix = Get_submatrix(m, keyMatrix, i ,0);
-                det += (sign)*keyMatrix[0][i] * Determinant(submatrix, m-1);
+
+                List<List<int>> submatrix = Get_submatrix(m, keyMatrix, i, 0);
+                det += (sign) * keyMatrix[0][i] * Determinant(submatrix, m - 1);
                 sign *= -1;
-                
+
             }
-            return  det;
+            return det;
         }
 
         //get submatrix2 for skipping each row for step 3 for decryption
-        public List<List<int>> Get_submatrix(int m, List<List<int>> keyMatrix, int startCol,int row)
+        public List<List<int>> Get_submatrix(int m, List<List<int>> keyMatrix, int startCol, int row)
         {
             int rowindex = 0;
             List<List<int>> sub_keyMatrix = new List<List<int>>();
@@ -138,7 +275,7 @@ namespace SecurityLibrary
                 if (row == i) continue;
                 sub_keyMatrix.Add(new List<int>());
                 for (int j = 0; j < m; j++)
-                { 
+                {
                     if (startCol == j) continue;
                     sub_keyMatrix[rowindex].Add(keyMatrix[i][j]);
                 }
@@ -151,17 +288,17 @@ namespace SecurityLibrary
         {
             Dictionary<char, int> mapping_letter = new Dictionary<char, int>();
             Dictionary<int, char> mapping_number = new Dictionary<int, char>();
-            List<int> pt_to_num=new List<int>(plainText);
+            List<int> pt_to_num = new List<int>(plainText);
             List<int> final_plainText = new List<int>();
 
-            int m=0;
+            int m = 0;
             for (int i = 0; i < 26; i++)
             {
                 mapping_letter.Add((char)('A' + i), i);
                 mapping_number.Add(i, (char)('A' + i));
             }
             m = (int)Math.Sqrt(key.Count);
-           
+
             for (int i = 0; i < plainText.Count; i++)
             {
                 if (plainText[i] == ' ')
@@ -183,22 +320,22 @@ namespace SecurityLibrary
                 }
             }
             //this is for the repeatition of the matrices with the rest of the plain text
-            for (int i = 0; i < pt_to_num.Count; i+=m)
+            for (int i = 0; i < pt_to_num.Count; i += m)
             {
                 for (int j = 0; j < m; j++)
                 {
                     int sum = 0;
                     for (int k = 0; k < m; k++)
-                    { 
-                        if(i + k<pt_to_num.Count && j * m + k< key.Count)
+                    {
+                        if (i + k < pt_to_num.Count && j * m + k < key.Count)
                         {
 
-                            sum += pt_to_num[i + k] * key[j *m  + k];   
+                            sum += pt_to_num[i + k] * key[j * m + k];
 
                         }
                     }
                     sum = sum % 26;
-                   
+
                     final_plainText.Add(sum);
                 }
             }
