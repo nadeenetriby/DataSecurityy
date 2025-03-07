@@ -26,3 +26,9 @@ C:\Users\aseel\Desktop\uni\third year\2\Data Security\DataSecurityy\SecurityLibr
 C:\Users\aseel\Desktop\uni\third year\2\Data Security\DataSecurityy\SecurityLibrary\obj\Debug\SecurityLibrary.csproj.CoreCompileInputs.cache
 C:\Users\aseel\Desktop\uni\third year\2\Data Security\DataSecurityy\SecurityLibrary\obj\Debug\SecurityLibrary.dll
 C:\Users\aseel\Desktop\uni\third year\2\Data Security\DataSecurityy\SecurityLibrary\obj\Debug\SecurityLibrary.pdb
+C:\college\data_security\milestone1\securityproj\DataSecurityy\SecurityLibrary\bin\Debug\SecurityLibrary.dll
+C:\college\data_security\milestone1\securityproj\DataSecurityy\SecurityLibrary\bin\Debug\SecurityLibrary.pdb
+C:\college\data_security\milestone1\securityproj\DataSecurityy\SecurityLibrary\obj\Debug\SecurityLibrary.csproj.AssemblyReference.cache
+C:\college\data_security\milestone1\securityproj\DataSecurityy\SecurityLibrary\obj\Debug\SecurityLibrary.csproj.CoreCompileInputs.cache
+C:\college\data_security\milestone1\securityproj\DataSecurityy\SecurityLibrary\obj\Debug\SecurityLibrary.dll
+C:\college\data_security\milestone1\securityproj\DataSecurityy\SecurityLibrary\obj\Debug\SecurityLibrary.pdb

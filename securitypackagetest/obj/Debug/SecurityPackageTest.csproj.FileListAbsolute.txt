@@ -46,3 +46,12 @@ C:\Users\aseel\Desktop\uni\third year\2\Data Security\DataSecurityy\SecurityPack
 C:\Users\aseel\Desktop\uni\third year\2\Data Security\DataSecurityy\SecurityPackageTest\obj\Debug\Security.174D7A11.Up2Date
 C:\Users\aseel\Desktop\uni\third year\2\Data Security\DataSecurityy\SecurityPackageTest\obj\Debug\SecurityPackageTest.dll
 C:\Users\aseel\Desktop\uni\third year\2\Data Security\DataSecurityy\SecurityPackageTest\obj\Debug\SecurityPackageTest.pdb
+C:\college\data_security\milestone1\securityproj\DataSecurityy\SecurityPackageTest\bin\Debug\SecurityPackageTest.dll
+C:\college\data_security\milestone1\securityproj\DataSecurityy\SecurityPackageTest\bin\Debug\SecurityPackageTest.pdb
+C:\college\data_security\milestone1\securityproj\DataSecurityy\SecurityPackageTest\bin\Debug\SecurityLibrary.dll
+C:\college\data_security\milestone1\securityproj\DataSecurityy\SecurityPackageTest\bin\Debug\SecurityLibrary.pdb
+C:\college\data_security\milestone1\securityproj\DataSecurityy\SecurityPackageTest\obj\Debug\SecurityPackageTest.csproj.AssemblyReference.cache
+C:\college\data_security\milestone1\securityproj\DataSecurityy\SecurityPackageTest\obj\Debug\SecurityPackageTest.csproj.CoreCompileInputs.cache
+C:\college\data_security\milestone1\securityproj\DataSecurityy\SecurityPackageTest\obj\Debug\SecurityPackageTest.csproj.CopyComplete
+C:\college\data_security\milestone1\securityproj\DataSecurityy\SecurityPackageTest\obj\Debug\SecurityPackageTest.dll
+C:\college\data_security\milestone1\securityproj\DataSecurityy\SecurityPackageTest\obj\Debug\SecurityPackageTest.pdb
