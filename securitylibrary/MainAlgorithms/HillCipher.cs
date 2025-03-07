@@ -32,7 +32,7 @@ namespace SecurityLibrary
             // we will define list of pairs for each list .... the pair here is the same as tuple
             List<Tuple<int, int>> plainpairs = new List<Tuple<int, int>>();
             // because the pairs each one will have 2 items so we will need to check first that the size is even to get correct output
-            if(plainText.Count %2!=0)
+            if (plainText.Count % 2 != 0)
                 throw new ArgumentException("The list must contain an even number of elements.");
             //other wise now we will convert the plaintext list into the pairs
             for (int i = 0; i < plainText.Count; i += 2)
@@ -52,18 +52,18 @@ namespace SecurityLibrary
 
             // now we will start taking each pair with all other next pairs to it
             int sizeee = cipherpairs.Count;
-            for(int hola=0;hola<sizeee-1;hola++)
+            for (int hola = 0; hola < sizeee - 1; hola++)
             {
-                for(int bela=hola+1;bela<sizeee;bela++ )
+                for (int bela = hola + 1; bela < sizeee; bela++)
                 {
                     // in each iteration we will take the outer pair with the current inner pair
                     //define the 2 matrcies of the plain and for the cipher 
                     int[,] plainmatrix = new int[2, 2];
                     // now we will need to iterate over the list to fill this matrix with its values
                     plainmatrix[0, 0] = plainpairs[hola].Item1;        //first item in first pair 
-                    plainmatrix[0,1] = plainpairs[bela].Item1;      //first item in second pair
-                    plainmatrix[1,0] = plainpairs[hola].Item2;     //second item in first pair
-                    plainmatrix[1,1] = plainpairs[bela].Item2;    //second item in second pair
+                    plainmatrix[0, 1] = plainpairs[bela].Item1;      //first item in second pair
+                    plainmatrix[1, 0] = plainpairs[hola].Item2;     //second item in first pair
+                    plainmatrix[1, 1] = plainpairs[bela].Item2;    //second item in second pair
                     // make the same with the ciphertext
                     int[,] ciphermatrix = new int[2, 2];
                     ciphermatrix[0, 0] = cipherpairs[hola].Item1;        //first item in first pair 
@@ -77,7 +77,7 @@ namespace SecurityLibrary
                         finaldet += 26;
 
                     // Check if the plaintext matrix is invertible: finalDet must be nonzero and gcd(finalDet, 26) must equal 1.
-                    int gcd = (int)BigInteger.GreatestCommonDivisor(finaldet, 26);
+                    int gcd = mygcd(finaldet, 26);
                     if (finaldet == 0 || gcd != 1)
                         continue; // try the another next 2 pairs
                     //otherwise it means this plainmatrix is invertable so i will now get its invertable
@@ -147,11 +147,11 @@ namespace SecurityLibrary
 
                 }
             }
-           
-          
-           //otherwise if we finish all the combinations of pairs we can get and we do not find an invertable plaintext matrix so we will throw this exception
-                throw new InvalidAnlysisException();
-          
+
+
+            //otherwise if we finish all the combinations of pairs we can get and we do not find an invertable plaintext matrix so we will throw this exception
+            throw new InvalidAnlysisException();
+
         }
 
 
@@ -186,7 +186,10 @@ namespace SecurityLibrary
                 }
 
             }
-            if (moddet == 0 || b == -1 || (int)BigInteger.GreatestCommonDivisor(26, moddet) != 1)
+            int gcdd = mygcd(26, moddet);
+
+
+            if (moddet == 0 || b == -1 || gcdd != 1)
             {
 
                 throw new InvalidOperationException("invalidd");
@@ -282,6 +285,13 @@ namespace SecurityLibrary
                 rowindex++;
             }
             return sub_keyMatrix;
+        }
+        //NUM1 takes the bigger number
+        int mygcd(int num1, int num2)
+        {
+
+            if (num2 == 0) return num1;
+            else return mygcd(num2, num1 % num2);
         }
 
         public List<int> Encrypt(List<int> plainText, List<int> key)
