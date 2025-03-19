@@ -355,7 +355,150 @@ namespace SecurityLibrary
 
         public List<int> Analyse3By3Key(List<int> plainText, List<int> cipherText)
         {
-            throw new NotImplementedException();
+
+            int[,] plain_matrix = new int[3, 3];
+            int[,] cipher_matrix = new int[3, 3];
+
+            // fill matrices 
+            int plaincnt = 0, ciphercnt = 0;
+            for (int j = 0; j < 3; j++)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    plain_matrix[i, j] = plainText[plaincnt++];
+                    cipher_matrix[i, j] = cipherText[ciphercnt++];
+                }
+            }
+
+
+            // compute determinant
+            int det = ((plain_matrix[0, 0] * (plain_matrix[1, 1] * plain_matrix[2, 2] - plain_matrix[1, 2] * plain_matrix[2, 1]))
+                      - (plain_matrix[0, 1] * (plain_matrix[1, 0] * plain_matrix[2, 2] - plain_matrix[1, 2] * plain_matrix[2, 0]))
+                      + (plain_matrix[0, 2] * (plain_matrix[1, 0] * plain_matrix[2, 1] - plain_matrix[1, 1] * plain_matrix[2, 0]))) % 26;
+            det = (det % 26 + 26) % 26;
+
+
+            int GCD(int a, int b)
+            {
+                while (b != 0)
+                {
+                    int temp = b;
+                    b = a % b;
+                    a = temp;
+                }
+                return a;
+            }
+
+            int gcd = GCD(det, 26);
+            if (det == 0 || gcd != 1)
+            {
+                return new List<int>(); // return empty list
+            }
+
+            // mod inv of determinant
+
+            int mod_inv(int p)
+            {
+                for (int x = 1; x < 26; x++)
+                {
+                    if ((p * x) % 26 == 1)
+                        return x;
+                }
+                return -1;
+            }
+
+            int inv = mod_inv(det);
+            if (inv == -1)
+            {
+                return new List<int>();  // no mod inv found
+            }
+
+            // cofactor matrix
+            int[,] adj = cofactors(plain_matrix);
+
+            // then get the transpose
+            int[,] trans = new int[3, 3];
+
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    trans[j, i] = adj[i, j];
+                }
+            }
+
+            // multiply trans matrix by det inv with mod 26
+            int[,] inverse_matrix = new int[3, 3];
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    inverse_matrix[i, j] = (trans[i, j] * inv) % 26;
+                    if (inverse_matrix[i, j] < 0)
+                        inverse_matrix[i, j] += 26;
+                }
+            }
+
+            // multiply cipher matrix with inv_matrix to get the key
+            int[,] key_matrix = new int[3, 3];
+
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    key_matrix[i, j] = 0;
+                    for (int x = 0; x < 3; x++)
+                    {
+                        key_matrix[i, j] += cipher_matrix[i, x] * inverse_matrix[x, j];
+                    }
+                    key_matrix[i, j] = (key_matrix[i, j] % 26 + 26) % 26;
+                }
+            }
+
+            // convert key matrix to list
+            List<int> key = new List<int>();
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    key.Add(key_matrix[i, j]);
+                }
+            }
+
+            return key;
+            //throw new NotImplementedException();
+        }
+
+
+
+        int[,] cofactors(int[,] matrix)
+        {
+            int[,] adj = new int[3, 3];
+
+            adj[0, 0] = (matrix[1, 1] * matrix[2, 2] - matrix[1, 2] * matrix[2, 1]);
+            adj[0, 1] = (-(matrix[1, 0] * matrix[2, 2] - matrix[1, 2] * matrix[2, 0]));
+            adj[0, 2] = (matrix[1, 0] * matrix[2, 1] - matrix[1, 1] * matrix[2, 0]);
+
+            adj[1, 0] = (-(matrix[0, 1] * matrix[2, 2] - matrix[0, 2] * matrix[2, 1]));
+            adj[1, 1] = (matrix[0, 0] * matrix[2, 2] - matrix[0, 2] * matrix[2, 0]);
+            adj[1, 2] = (-(matrix[0, 0] * matrix[2, 1] - matrix[0, 1] * matrix[2, 0]));
+
+            adj[2, 0] = (matrix[0, 1] * matrix[1, 2] - matrix[0, 2] * matrix[1, 1]);
+            adj[2, 1] = (-(matrix[0, 0] * matrix[1, 2] - matrix[0, 2] * matrix[1, 0]));
+            adj[2, 2] = (matrix[0, 0] * matrix[1, 1] - matrix[0, 1] * matrix[1, 0]);
+            //PrintMatrix(adj);
+
+            // taking the mod
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    adj[i, j] = (adj[i, j] % 26 + 26) % 26;
+                }
+            }
+
+
+            return adj;
         }
 
     }

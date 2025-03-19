@@ -1,10 +1,7 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\securitylibrary",
-    "\\securitylibrary\\MainAlgorithms",
-    "\\securitypackagetest"
+    ""
   ],
-  "SelectedNode": "\\securitylibrary\\MainAlgorithms\\HillCipher.cs",
+  "SelectedNode": "\\SecurityPackage.sln",
   "PreviewInSolutionExplorer": false
 }
