@@ -152,5 +152,83 @@ namespace SecurityLibrary.DES
 
         }
 
+
+                //////////// Declare and Initialize permutation table 1 & 2 /////////////
+        static int[] PC1 = {
+    57, 49, 41, 33, 25, 17, 9,  1, 58, 50, 42, 34, 26, 18,
+    10, 2,  59, 51, 43, 35, 27, 19, 11, 3,  60, 52, 44, 36,
+    63, 55, 47, 39, 31, 23, 15, 7,  62, 54, 46, 38, 30, 22,
+    14, 6,  61, 53, 45, 37, 29, 21, 13, 5,  28, 20, 12, 4
+};
+
+        static int[] PC2 = {
+    14, 17, 11, 24, 1,  5,  3,  28, 15, 6,  21, 10,
+    23, 19, 12, 4,  26, 8,  16, 7,  27, 20, 13, 2,
+    41, 52, 31, 37, 47, 55, 30, 40, 51, 45, 33, 48,
+    44, 49, 39, 56, 34, 53, 46, 42, 50, 36, 29, 32
+};
+
+        /////// Required Function for generate subkey: /////////
+        //1.permute(Done)
+        //2.shiftRotate(Done)
+        //3.Converting hex to binary(Done)
+
+        //////////////// Permute //////////////////
+        static string Permute(string key, int[] permutationTable)
+        {
+            int size = permutationTable.Length;
+            char[] permutedKey = new char[size];
+            for (int i = 0; i < size; i++)
+            {
+                permutedKey[i] = key[permutationTable[i] - 1];
+            }
+            return new string(permutedKey);
+        }
+
+
+
+        ///// To shift left C & D seperately /////
+        public string LeftCircularShift2(string keyPart, int round)
+        {
+            Dictionary<int, int> circular_table = new Dictionary<int, int>
+    {
+        { 1, 1 }, { 2, 1 }, { 3, 2 }, { 4, 2 }, { 5, 2 }, { 6, 2 }, { 7, 2 },
+        { 8, 2 }, { 9, 1 }, { 10, 2 }, { 11, 2 }, { 12, 2 }, { 13, 2 }, { 14, 2 }, { 15, 2 }, { 16, 1 }
+    };
+
+            int num = circular_table[round];
+
+            return keyPart.Substring(num) + keyPart.Substring(0, num);
+        }
+
+        ////////// Generate Subkeys //////////
+        public string[] GenerateSubkeys(string key)
+        {
+            key = HexToBin(key);
+            string[] subkeys = new string[16];
+
+            //First permute the key and get a key of 56 bits
+            string permutedKey = Permute(key, PC1);
+
+            //Second split into C and D(28 - bit each)
+            string C = permutedKey.Substring(0, 28); //left Side
+            string D = permutedKey.Substring(28, 28);//right side
+
+
+
+            for (int iter = 0; iter < 16; iter++)
+            {
+               
+
+                C = LeftCircularShift2(C, iter+1);
+                D = LeftCircularShift2(D, iter+1);
+
+                subkeys[iter] = Permute(C+D, PC2);
+
+            }
+
+            return subkeys;
+        }
+
     }
 }
