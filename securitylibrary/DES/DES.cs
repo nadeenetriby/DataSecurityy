@@ -187,48 +187,44 @@ namespace SecurityLibrary.DES
 
 
 
-        ///// To shift left C & D seperately /////
-        public string LeftCircularShift2(string keyPart, int round)
-        {
-            Dictionary<int, int> circular_table = new Dictionary<int, int>
-    {
-        { 1, 1 }, { 2, 1 }, { 3, 2 }, { 4, 2 }, { 5, 2 }, { 6, 2 }, { 7, 2 },
-        { 8, 2 }, { 9, 1 }, { 10, 2 }, { 11, 2 }, { 12, 2 }, { 13, 2 }, { 14, 2 }, { 15, 2 }, { 16, 1 }
-    };
+       ///// To shift left C & D seperately /////
+  public string LeftCircularShift2(string keyPart, int shiftAmount)
+  {
+      if (shiftAmount != 1 && shiftAmount != 2)
+          throw new ArgumentException("Shift amount must be 1 or 2");
 
-            int num = circular_table[round];
+      if (keyPart.Length != 28)
+          throw new ArgumentException("Key part must be 28 bits long");
 
-            return keyPart.Substring(num) + keyPart.Substring(0, num);
-        }
+      return keyPart.Substring(shiftAmount) + keyPart.Substring(0, shiftAmount);
+  }
 
-        ////////// Generate Subkeys //////////
-        public string[] GenerateSubkeys(string key)
-        {
-            key = HexToBin(key);
-            string[] subkeys = new string[16];
+  ////////// Generate Subkeys //////////
+  public string[] GenerateSubkeys(string key)
+  {
+      key = HexToBin(key);
+      string[] subkeys = new string[16];
 
-            //First permute the key and get a key of 56 bits
-            string permutedKey = Permute(key, PC1);
+      //First permute the key and get a key of 56 bits
+      string permutedKey = Permute(key, PC1);
 
-            //Second split into C and D(28 - bit each)
-            string C = permutedKey.Substring(0, 28); //left Side
-            string D = permutedKey.Substring(28, 28);//right side
+      //Second split into C and D(28 - bit each)
+      string C = permutedKey.Substring(0, 28); //left Side
+      string D = permutedKey.Substring(28, 28);//right side
 
 
+      int[] shifts = { 1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1 };
 
-            for (int iter = 0; iter < 16; iter++)
-            {
-               
+      for (int round = 0; round < 16; round++)
+      {
+          C = LeftCircularShift2(C, shifts[round]);
+          D = LeftCircularShift2(D, shifts[round]);
+          subkeys[round] = Permute(C + D, PC2);
+      }
+      return subkeys;
 
-                C = LeftCircularShift2(C, iter+1);
-                D = LeftCircularShift2(D, iter+1);
+  }
 
-                subkeys[iter] = Permute(C+D, PC2);
-
-            }
-
-            return subkeys;
-        }
 
     }
 }
